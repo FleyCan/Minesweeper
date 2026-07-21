@@ -8,7 +8,9 @@
 #include "GameMenu.hpp"
 #include "Position.hpp"
 #include "Interface.hpp"
+#include "Terminal.hpp"
 
+//remove system("clear");
 
 int main() {
 
@@ -38,7 +40,10 @@ int main() {
 
 			Interface::printInterface(player.position,minefield);
 
-			while((input = getchar()) == 10);
+			{
+				Terminal terminal;
+				input = terminal.getInput();
+			}
 
 			player.move(input);
 
@@ -53,11 +58,17 @@ int main() {
 			}
 
 			if(minefield.isDead()) {
-				system("clear");
-				Interface::printInterface(player.position,minefield);
-				std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
-				std::cout << std::endl << " press e to continue!";
-				while(getchar() != 'e');
+				int input;
+				while(input != 'e') {
+					system("clear");
+					Interface::printInterface(player.position,minefield);
+					std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
+					std::cout << std::endl << " press e to continue!" << std::endl;
+					{
+						Terminal terminal;
+						input = terminal.getInput();
+					}
+				}
 				break;
 			}
 
@@ -69,7 +80,6 @@ int main() {
 
 			if(minefield.hasWon()) {
 
-				system("clear");
 
 				MatrixOperation::iterate(minefield.size,[&](Position position) {
 					if(minefield.flaged.getElementAt(position) == false) {
@@ -77,10 +87,17 @@ int main() {
 					}
 				});
 
-				Interface::printInterface(player.position,minefield);
-				std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
-				std::cout << std::endl << " press e to continue!";
-				while(getchar() != 'e');
+				int input;
+				while(input != 'e') {
+					system("clear");
+					Interface::printInterface(player.position,minefield);
+					std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
+					std::cout << std::endl << " press e to continue!" << std::endl;
+					{
+						Terminal terminal;
+						input = terminal.getInput();
+					}
+				}
 				break;
 			}
 		}

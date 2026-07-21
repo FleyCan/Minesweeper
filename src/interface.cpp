@@ -62,102 +62,43 @@ void Interface::printLowerBox(unsigned int length) {
 	std::cout << "┛";
 }
 
-void Interface::printLogo() {
-	Font::printFontString(SC{"|MINESWEEPER|",Color::gray});
-}
-
-
 void Interface::printGameMenu(std::size_t index) {
-
 	system("clear");
 
-	printUpperBox(58);
+	std::cout << "Minesweeper" << std::endl;
 
-	printLogo();
+	if(index == 1) Colorization::setTextColor(Color::red);
+	std::cout << "Start" << std::endl;
+	Colorization::resetColor();
 
-	if(index == 1) {
-		Font::printFontString
-		 (SC{"|tt ",Color::gray}
-		, SC{"START",Color::red}
-		, SC{"tt|",Color::gray});
-		 Font::printFontString
-		 (SC{"|tt   ",Color::gray}
-		 , SC{"QUIT",Color::gray}
-		 , SC{"  tt|",Color::gray});
-	}
-
-	if(index == 2) {
-		Font::printFontString
-		(SC{"|tt ",Color::gray}
-		, SC{"START",Color::gray}
-		, SC{"tt|",Color::gray});
-		Font::printFontString
-		(SC{"|tt   ",Color::gray}
-		, SC{"QUIT",Color::red}
-		, SC{"  tt|",Color::gray});
-	}
-
-	printLowerBox(58);
-
+	if(index == 2) Colorization::setTextColor(Color::red);
+	std::cout << "Quit" << std::endl;
+	Colorization::resetColor();
 }
 
 void Interface::printChooseSize(std::size_t const& x, std::size_t const& y, char direction) {
 
-	system("clear");
-
-	printUpperBox(58);
-
-	printLogo();
-
 	if(direction == 'x') {
-		Font::printFontString
-		(SC{"| SIZE:",Color::gray}
-		, SC{"       X",Color::red}
-		, SC{"tY       |",Color::gray});
-		Font::printFontString
-		(SC{"|     ttt",Color::gray}
-		, x < 10 ? SC{"0",Color::gray} : SC{"",Color::gray}
-		, SC{std::to_string(x),Color::gray}
-		, SC{"    ",Color::gray}
-		, y < 10 ? SC{"0",Color::gray} : SC{"",Color::gray}
-		, SC{std::to_string(y),Color::gray}
-		, SC{"     |",Color::gray});
+		Colorization::setTextColor(Color::red);
 	}
+
+	std::cout << "X";
+	Colorization::resetColor();
+	std::cout << " = " << x << std::endl;
 
 	if(direction == 'y') {
-		Font::printFontString
-		(SC{"| SIZE:",Color::gray}
-		, SC{"       Xt",Color::gray}
-		, SC{"Y",Color::red}
-		, SC{"       |",Color::gray});
-		Font::printFontString
-		(SC{"|     ttt",Color::gray}
-		, x < 10 ? SC{"0",Color::gray} : SC{"",Color::gray}
-		, SC{std::to_string(x),Color::gray}
-		, SC{"    ",Color::gray}
-		, y < 10 ? SC{"0",Color::gray} : SC{"",Color::gray}
-		, SC{std::to_string(y),Color::gray}
-		, SC{"     |",Color::gray});
+		Colorization::setTextColor(Color::red);
 	}
 
-	printLowerBox(58);
-	std::cout << std::endl;
+	std::cout << "Y";
+	Colorization::resetColor();
+	std::cout << " = " <<y << std::endl;
+
+
 }
 
 void Interface::printChoosePercentage(std::uint8_t percentage) {
 
-	printUpperBox(58);
-
-	printLogo();
-
-	Font::printFontString
-	(SC{"|tt%:  ",Color::gray}
-	, SC{std::to_string(percentage),Color::gray}
-	, SC{"tt|",Color::gray});
-
-	printLowerBox(58);
-
-	std::cout << std::endl;
 }
 
 

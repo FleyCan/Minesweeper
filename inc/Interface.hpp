@@ -18,8 +18,6 @@ public:
 	static void printUpperBox(unsigned int length);
 	static void printLowerBox(unsigned int length);
 
-	static void printLogo();
-
 	static void printGameMenu(std::size_t index);
 
 	static void printChooseSize(std::size_t const& x, std::size_t const& y, char direction);

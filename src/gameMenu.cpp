@@ -2,6 +2,7 @@
 
 #include "GameMenu.hpp"
 #include "Interface.hpp"
+#include "Terminal.hpp"
 
 
 
@@ -15,13 +16,16 @@ void GameMenu::mainMenu(std::size_t& x, std::size_t& y, double& percentageOfMine
 
 	menu.down();
 
+	int input = 0;
+
 	while(loop) {
 
 		Interface::printGameMenu(menu.giveCurrentOptionIndex());
 
-		int input = getchar();
-
-		while((input = getchar()) == 10);
+		{
+		Terminal terminal;
+		input = terminal.getInput();
+		}
 
 		switch (input) {
 			case'w':
@@ -47,13 +51,18 @@ void GameMenu::mainMenu(std::size_t& x, std::size_t& y, double& percentageOfMine
 
 std::size_t GameMenu::chooseSize(std::size_t& x, std::size_t& y, char direction) {
 
+	int input = 0;
+
 	while(true) {
 
 		system("clear");
 
 		Interface::printChooseSize(x,y,direction);
 
-		int input = getchar();
+		{
+			Terminal terminal;
+			input = terminal.getInput();
+		}
 
 		switch (input) {
 			case'w':
