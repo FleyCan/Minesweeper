@@ -14,13 +14,13 @@
 
 int main() {
 
+	start:
+
 	std::size_t x = 20;
 	std::size_t y = 10;
 	unsigned int percentageOfMines;
 
 	while(true) {
-
-		start:
 
 		std::size_t input = 0;
 
@@ -28,6 +28,7 @@ int main() {
 		menu.mainMenu(x,y,percentageOfMines);
 
 		if(x == 0 || y == 0) {
+
 			while(input != 'e') {
 				system("clear");
 				std::cout << "\033[31m" << "INVALID SIZE 0" << "\033[0m" << std::endl;
