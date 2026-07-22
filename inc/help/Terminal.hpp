@@ -2,21 +2,11 @@
 
 struct Terminal {
 
-	Terminal() {
-		initscr();
-		cbreak();
-		noecho();
-		keypad(stdscr, TRUE);
-		//curs_set(0); hide cursor
-	}
+	Terminal();
 
-	~Terminal() {
-		endwin();
-	}
+	~Terminal();
 
-	int getInput() {
-		return getch();
-	}
+	static int getInput();
 
 };
 

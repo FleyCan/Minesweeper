@@ -22,10 +22,8 @@ void GameMenu::mainMenu(std::size_t& x, std::size_t& y, double& percentageOfMine
 
 		Interface::printGameMenu(menu.giveCurrentOptionIndex());
 
-		{
-		Terminal terminal;
-		input = terminal.getInput();
-		}
+		input = Terminal::getInput();
+
 
 		switch (input) {
 			case'w':
@@ -59,10 +57,7 @@ std::size_t GameMenu::chooseSize(std::size_t& x, std::size_t& y, char direction)
 
 		Interface::printChooseSize(x,y,direction);
 
-		{
-			Terminal terminal;
-			input = terminal.getInput();
-		}
+		input = Terminal::getInput();
 
 		switch (input) {
 			case'w':

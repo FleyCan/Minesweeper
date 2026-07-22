@@ -40,10 +40,7 @@ int main() {
 
 			Interface::printInterface(player.position,minefield);
 
-			{
-				Terminal terminal;
-				input = terminal.getInput();
-			}
+			input = Terminal::getInput();
 
 			player.move(input);
 
@@ -64,10 +61,9 @@ int main() {
 					Interface::printInterface(player.position,minefield);
 					std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
 					std::cout << std::endl << " press e to continue!" << std::endl;
-					{
-						Terminal terminal;
-						input = terminal.getInput();
-					}
+
+					input = Terminal::getInput();
+
 				}
 				break;
 			}
@@ -93,10 +89,9 @@ int main() {
 					Interface::printInterface(player.position,minefield);
 					std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
 					std::cout << std::endl << " press e to continue!" << std::endl;
-					{
-						Terminal terminal;
-						input = terminal.getInput();
-					}
+
+					Terminal::getInput();
+
 				}
 				break;
 			}
