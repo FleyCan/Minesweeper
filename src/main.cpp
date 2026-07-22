@@ -90,7 +90,7 @@ int main() {
 					std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
 					std::cout << std::endl << " press e to continue!" << std::endl;
 
-					Terminal::getInput();
+					input = Terminal::getInput();
 
 				}
 				break;
