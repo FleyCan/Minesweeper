@@ -4,10 +4,10 @@ A classic Minesweeper game for Linux originally made for an Arduino project.
 
 ## Start
 
-BUILD
+BUILD  
  g++ -Wfatal-errors -Iinc -Iinc/help -std=c++23 src/*.cpp src/help/*.cpp -lncurses -o bin/minesweeper  
 
-RUN
+RUN  
  ./bin/minesweeper  
 
 ## Controls
@@ -22,9 +22,9 @@ START/QUIT
 SIZE  
  w - increase  
  s - decrease  
- e - choose size **(x/y)**  
+ e - choose size (x/y)  
  
-PERCENTAGE
+PERCENTAGE  
  w - increase  
  s - decrease  
  e - choose percentage  
