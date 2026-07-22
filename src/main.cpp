@@ -16,23 +16,34 @@ int main() {
 
 	while(true) {
 
+		start:
+
 		std::size_t x = 0;
 		std::size_t y = 0;
+
+		std::size_t input = 0;
 
 		unsigned int percentageOfMines;
 
 		GameMenu menu;
 		menu.mainMenu(x,y,percentageOfMines);
 
-		if(x == 0 || y == 0) return 0;
+		if(x == 0 || y == 0) {
+			while(input != 'e') {
+				system("clear");
+				std::cout << "\033[31m" << "INVALID SIZE 0" << "\033[0m" << std::endl;
+				std::cout << std::endl << " press e to continue!" << std::endl;
+
+				input = Terminal::getInput();
+			}
+			goto start;
+		}
 
 		Minefield minefield{Size{x,y},percentageOfMines};
 
 		Player player{x - 1,y - 1};
 
 		player.position.setPosition(minefield.getRandomZeroPosition());
-
-		std::size_t input = 0;
 
 		while(!minefield.hasWon() || !minefield.isDead()) {
 
