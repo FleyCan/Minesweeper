@@ -23,7 +23,7 @@ public:
 	Matrix<bool> flaged;
 	Matrix<bool> mine;
 
-	Minefield(Size size, double percentageOfMines)
+	Minefield(Size size, unsigned int percentageOfMines)
 		: mines{0}
 		, flags{0}
 		, dead{false}
@@ -34,7 +34,7 @@ public:
 		, flaged{size}
 		, mine{size}
 	{
-		std::uint8_t numberOfMines = size.getX() * size.getY() * percentageOfMines;
+		unsigned int numberOfMines = size.getX() * size.getY() * percentageOfMines / 100;
 		placeMines(numberOfMines);
 		calculateMinefield();
 	}

@@ -22,7 +22,7 @@ public:
 
 	static void printChooseSize(std::size_t const& x, std::size_t const& y, char direction);
 
-	static void printChoosePercentage(std::uint8_t percentage);
+	static void printChoosePercentage(unsigned int percentage);
 
 	static void printInterface(Position playerPosition, const Minefield& minefield);
 

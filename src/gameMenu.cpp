@@ -1,44 +1,40 @@
-
-
 #include "GameMenu.hpp"
 #include "Interface.hpp"
 #include "Terminal.hpp"
 
 
 
-void GameMenu::mainMenu(std::size_t& x, std::size_t& y, double& percentageOfMines) {
+void GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentageOfMines) {
 
 	Menu menu;
 
 	menu.addOptions("Minesweeper","Start","Quit");
 
-	bool loop = true;
-
 	menu.down();
 
 	int input = 0;
 
-	while(loop) {
+	while(true) {
 
 		Interface::printGameMenu(menu.giveCurrentOptionIndex());
 
 		input = Terminal::getInput();
 
-
 		switch (input) {
 			case'w':
-				if(menu.giveCurrentOptionIndex() > 1)
-				menu.up();
+				if(menu.giveCurrentOptionIndex() > 1) menu.up();
 				break;
+
 			case's':
 				menu.down();
 				break;
+
 			case'e':
 				switch (menu.giveCurrentOptionIndex()) {
 					case 1:
 						x = chooseSize(x,y,'x');
 						y = chooseSize(x,y,'y');
-						//percentageOfMines = choosePercentage(percentageOfMines);
+						percentageOfMines = choosePercentage();
 						return;
 					case 2:
 						return;
@@ -47,6 +43,7 @@ void GameMenu::mainMenu(std::size_t& x, std::size_t& y, double& percentageOfMine
 	}
 }
 
+//too complicated...
 std::size_t GameMenu::chooseSize(std::size_t& x, std::size_t& y, char direction) {
 
 	int input = 0;
@@ -87,9 +84,9 @@ std::size_t GameMenu::chooseSize(std::size_t& x, std::size_t& y, char direction)
 	}
 }
 
-double GameMenu::choosePercentage(double percentageOfMines) {
+double GameMenu::choosePercentage() {
 
-	std::uint8_t percentage = 20;
+	unsigned int percentage = 20;
 
 	while(true) {
 
@@ -97,7 +94,7 @@ double GameMenu::choosePercentage(double percentageOfMines) {
 
 		Interface::printChoosePercentage(percentage);
 
-		int input = getchar();
+		int input = Terminal::getInput();
 
 		switch (input) {
 			case'w':

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <ctime>
 #include <iostream>
 #include <string>
@@ -97,8 +98,8 @@ void Interface::printChooseSize(std::size_t const& x, std::size_t const& y, char
 
 }
 
-void Interface::printChoosePercentage(std::uint8_t percentage) {
-
+void Interface::printChoosePercentage(unsigned int percentage) {
+	std::cout << "% = " << percentage << std::endl;
 }
 
 

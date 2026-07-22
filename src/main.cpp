@@ -19,14 +19,14 @@ int main() {
 		std::size_t x = 0;
 		std::size_t y = 0;
 
-		double percentageOfMines;
+		unsigned int percentageOfMines;
 
 		GameMenu menu;
 		menu.mainMenu(x,y,percentageOfMines);
 
 		if(x == 0 || y == 0) return 0;
 
-		Minefield minefield{Size{x,y},0.2};
+		Minefield minefield{Size{x,y},percentageOfMines};
 
 		Player player{x - 1,y - 1};
 
