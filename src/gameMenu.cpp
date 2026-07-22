@@ -1,6 +1,6 @@
 #include "GameMenu.hpp"
 #include "Interface.hpp"
-#include "Terminal.hpp"
+#include "help/Terminal.hpp"
 
 
 

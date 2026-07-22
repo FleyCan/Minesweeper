@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Menu.hpp"
+#include "help/Menu.hpp"
 
 class GameMenu : public Menu {
 

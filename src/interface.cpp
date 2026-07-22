@@ -4,8 +4,8 @@
 #include <string>
 
 #include "Interface.hpp"
-#include "Font.hpp"
-#include "Colorization.hpp"
+#include "help/Font.hpp"
+#include "help/Colorization.hpp"
 
 void Interface::printColoredNumber(std::size_t number) {
 

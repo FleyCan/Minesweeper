@@ -1,5 +1,5 @@
 #include "Player.hpp"
-#include "Position.hpp"
+#include "help/Position.hpp"
 
 Player::Player(std::size_t maxX, std::size_t maxY)
 	: maxX{maxX}

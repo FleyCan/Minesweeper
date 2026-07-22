@@ -2,8 +2,8 @@
 #include <algorithm> //for std::shuffle needed...?
 
 #include "Minefield.hpp"
-#include "Matrix.hpp"
-#include "Position.hpp"
+#include "help/Matrix.hpp"
+#include "help/Position.hpp"
 
 //always at the border of the minefield??... debug session needed
 Position Minefield::getRandomZeroPosition() {

@@ -1,4 +1,4 @@
-#include "Menu.hpp"
+#include "help/Menu.hpp"
 
 std::string Menu::giveCurrentOptionString() const {
 	return optionList[currentOptionIndex];

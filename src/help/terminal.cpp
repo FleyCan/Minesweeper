@@ -1,4 +1,4 @@
-#include "Terminal.hpp"
+#include "help/Terminal.hpp"
 
 Terminal::Terminal() {
 	initscr();

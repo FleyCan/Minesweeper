@@ -2,13 +2,13 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "Matrix.hpp"
+#include "help/Matrix.hpp"
 #include "Minefield.hpp"
 #include "Player.hpp"
 #include "GameMenu.hpp"
-#include "Position.hpp"
+#include "help/Position.hpp"
 #include "Interface.hpp"
-#include "Terminal.hpp"
+#include "help/Terminal.hpp"
 
 //remove system("clear");
 

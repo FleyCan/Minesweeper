@@ -1,8 +1,6 @@
 #pragma once
 
-
-
-#include "Position.hpp"
+#include "help/Position.hpp"
 
 class Player {
 

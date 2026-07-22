@@ -1,4 +1,2 @@
-
 -std=c++23
 -Iinc
--Iinc/help

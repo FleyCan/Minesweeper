@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Matrix.hpp"
-#include "Position.hpp"
-#include "Size.hpp"
+#include "help/Matrix.hpp"
+#include "help/Position.hpp"
+#include "help/Size.hpp"
 #include <cmath>
 #include <cstdint>
 
