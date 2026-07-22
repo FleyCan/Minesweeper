@@ -5,7 +5,7 @@ A classic Minesweeper game for Linux originally made for an Arduino project.
 ## Start
 
 BUILD  
- g++ -Wfatal-errors -Iinc -Iinc/help -std=c++23 src/*.cpp src/help/*.cpp -lncurses -o bin/minesweeper  
+ make  
 
 RUN  
  ./bin/minesweeper  
@@ -47,7 +47,6 @@ UTF-8 support (recommended) - e.g. KDE Plasma Console
 
 ## Plans
 
-Makefile.  
 Support the version without ncurses.  
 Add a save file system to continue playing the last session.  
 Add support for other platforms.  
