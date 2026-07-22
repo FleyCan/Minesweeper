@@ -65,7 +65,7 @@ int main() {
 			}
 
 			if(minefield.isDead()) {
-				int input;
+				input = 0;
 				while(input != 'e') {
 					system("clear");
 					Interface::printInterface(player.position,minefield);
@@ -93,7 +93,7 @@ int main() {
 					}
 				});
 
-				int input;
+				input = 0;
 				while(input != 'e') {
 					system("clear");
 					Interface::printInterface(player.position,minefield);
