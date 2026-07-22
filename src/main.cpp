@@ -14,16 +14,15 @@
 
 int main() {
 
+	std::size_t x = 20;
+	std::size_t y = 10;
+	unsigned int percentageOfMines;
+
 	while(true) {
 
 		start:
 
-		std::size_t x = 0;
-		std::size_t y = 0;
-
 		std::size_t input = 0;
-
-		unsigned int percentageOfMines;
 
 		GameMenu menu;
 		menu.mainMenu(x,y,percentageOfMines);
