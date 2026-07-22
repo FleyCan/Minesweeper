@@ -24,6 +24,11 @@ SIZE
  s - decrease  
  e - choose size **(x/y)**  
  
+PERCENTAGE
+ w - increase  
+ s - decrease  
+ e - choose percentage  
+ 
 ### Game
 
  w - up  
@@ -40,14 +45,9 @@ ncurses libary - for unbuffered input
 C++ - Compiler with **c++23** (might work with an older standard)  
 UTF-8 support (recommended) - e.g. KDE Plasma Console  
 
-## Known Problems
-
-After starting the game there has to be an input before navigating the Menu works.  
-After loosing a row might get shifted to the right.  
-If both sizes are zero the program stops.  
-
 ## Plans
 
+Makefile.  
 Support the version without ncurses.  
 Add a save file system to continue playing the last session.  
 Add support for other platforms.  
