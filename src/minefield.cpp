@@ -1,4 +1,5 @@
 #include <random>
+#include <algorithm> //for std::shuffle needed...?
 
 #include "Minefield.hpp"
 #include "Matrix.hpp"
