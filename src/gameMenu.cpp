@@ -4,7 +4,7 @@
 
 
 
-void GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentageOfMines) {
+bool GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentageOfMines) {
 
 	Menu menu;
 
@@ -35,9 +35,9 @@ void GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentage
 						x = chooseSize(x,y,'x');
 						y = chooseSize(x,y,'y');
 						percentageOfMines = choosePercentage();
-						return;
+						return true;
 					case 2:
-						return;
+						return false;
 				}
 		}
 	}

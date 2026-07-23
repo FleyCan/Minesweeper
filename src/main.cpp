@@ -25,7 +25,7 @@ int main() {
 		std::size_t input = 0;
 
 		GameMenu menu;
-		menu.mainMenu(x,y,percentageOfMines);
+		if(!menu.mainMenu(x,y,percentageOfMines)) return 0;
 
 		if(x == 0 || y == 0) {
 
