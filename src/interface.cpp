@@ -1,11 +1,7 @@
-#include <cstdint>
-#include <ctime>
 #include <iostream>
-#include <string>
 
 #include "Interface.hpp"
 #include "Minefield.hpp"
-#include "help/Font.hpp"
 #include "help/Colorization.hpp"
 #include "help/Terminal.hpp"
 

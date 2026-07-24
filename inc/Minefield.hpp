@@ -4,7 +4,6 @@
 #include "help/Position.hpp"
 #include "help/Size.hpp"
 #include <cmath>
-#include <cstdint>
 
 class Minefield {
 
