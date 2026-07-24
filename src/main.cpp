@@ -28,14 +28,7 @@ int main() {
 		if(!menu.mainMenu(x,y,percentageOfMines)) return 0;
 
 		if(x == 0 || y == 0) {
-
-			while(input != 'e') {
-				system("clear");
-				std::cout << "\033[31m" << "INVALID SIZE 0" << "\033[0m" << std::endl;
-				std::cout << std::endl << " press e to continue!" << std::endl;
-
-				input = Terminal::getInput();
-			}
+			Interface::invalidInput();
 			goto start;
 		}
 
@@ -45,7 +38,7 @@ int main() {
 
 		player.position.setPosition(minefield.getRandomZeroPosition());
 
-		while(!minefield.hasWon() || !minefield.isDead()) {
+		while(true) {
 
 			system("clear");
 
@@ -53,57 +46,35 @@ int main() {
 
 			input = Terminal::getInput();
 
-			player.move(input);
+			switch (input) {
+				case 'e':
+					////SPEICHERABZUG bei Aufruf in uncoverElement... sleepy
+					if(minefield.uncovered.getElementAt(player.position) == true) {
+						minefield.uncoverNeighbours
+						(player.position,minefield.getNeighbours(player.position));
+					}
+					minefield.uncoverElement(player.position);
+				break;
 
-			if(input == 'e') {
+				case 'f':
+					minefield.setFlag(player.position);
+				break;
 
-				////SPEICHERABZUG bei Aufruf in uncoverElement... sleepy
-				if(minefield.uncovered.getElementAt(player.position) == true) {
-					minefield.uncoverNeighbours
-					(player.position,minefield.getNeighbours(player.position));
-				}
-				minefield.uncoverElement(player.position);
-			}
-
-			if(minefield.isDead()) {
-				input = 0;
-				while(input != 'e') {
-					system("clear");
-					Interface::printInterface(player.position,minefield);
-					std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
-					std::cout << std::endl << " press e to continue!" << std::endl;
-
-					input = Terminal::getInput();
-
-				}
+				default:
+					player.move(input);
 				break;
 			}
 
-			if(input == 'f') {
-				minefield.setFlag(player.position);
+			if(minefield.isDead()) {
+				Interface::deadSequence(minefield,player);
+				break;
 			}
+
 
 			minefield.checkWin();
 
 			if(minefield.hasWon()) {
-
-
-				MatrixOperation::iterate(minefield.size,[&](Position position) {
-					if(minefield.flaged.getElementAt(position) == false) {
-						minefield.uncovered.changeElementAtTo(position, true);
-					}
-				});
-
-				input = 0;
-				while(input != 'e') {
-					system("clear");
-					Interface::printInterface(player.position,minefield);
-					std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
-					std::cout << std::endl << " press e to continue!" << std::endl;
-
-					input = Terminal::getInput();
-
-				}
+				Interface::winSequence(minefield,player);
 				break;
 			}
 		}

@@ -3,6 +3,7 @@
 #include <cstddef>
 
 #include "Minefield.hpp"
+#include "Player.hpp"
 
 class Interface {
 
@@ -26,5 +27,9 @@ public:
 
 	static void printInterface(Position playerPosition, const Minefield& minefield);
 
+	static void deadSequence(Minefield const& minefield, Player const& player);
 
+	static void winSequence(Minefield& minefield, Player const& player);
+
+	static void invalidInput();
 };

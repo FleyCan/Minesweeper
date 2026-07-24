@@ -4,8 +4,10 @@
 #include <string>
 
 #include "Interface.hpp"
+#include "Minefield.hpp"
 #include "help/Font.hpp"
 #include "help/Colorization.hpp"
+#include "help/Terminal.hpp"
 
 void Interface::printColoredNumber(std::size_t number) {
 
@@ -103,7 +105,10 @@ void Interface::printChoosePercentage(unsigned int percentage) {
 }
 
 
-void Interface::printInterface(Position playerPosition, Minefield const& minefield){
+void Interface::printInterface(
+	  Position playerPosition
+	, Minefield const& minefield)
+{
 
 
 	std::cout << "mines: " << minefield.getMines() - minefield.getFlags() << std::endl;
@@ -190,5 +195,51 @@ void Interface::printInterface(Position playerPosition, Minefield const& minefie
 	std::cout << "┛";
 
 	std::cout << std::endl;
+}
+
+void Interface::deadSequence(
+	  Minefield const& minefield
+	, Player const& player)
+{
+	int input = 0;
+	while(input != 'e') {
+		system("clear");
+		Interface::printInterface(player.position,minefield);
+		std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
+		std::cout << std::endl << " press e to continue!" << std::endl;
+
+		input = Terminal::getInput();
+
+	}
+}
+
+void Interface::winSequence(Minefield& minefield, Player const& player) {
+	MatrixOperation::iterate(minefield.size,[&](Position position) {
+		if(minefield.flaged.getElementAt(position) == false) {
+			minefield.uncovered.changeElementAtTo(position, true);
+		}
+	});
+
+	int input = 0;
+	while(input != 'e') {
+		system("clear");
+		Interface::printInterface(player.position,minefield);
+		std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
+		std::cout << std::endl << " press e to continue!" << std::endl;
+
+		input = Terminal::getInput();
+
+	}
+}
+
+void Interface::invalidInput() {
+	int input = 0;
+	while(input != 'e') {
+		system("clear");
+		std::cout << "\033[31m" << "INVALID SIZE 0" << "\033[0m" << std::endl;
+		std::cout << std::endl << " press e to continue!" << std::endl;
+
+		input = Terminal::getInput();
+	}
 }
 
