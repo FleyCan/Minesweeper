@@ -49,7 +49,7 @@ void Minefield::placeMines(std::size_t count) {
 
 	for(Position const& position : positions) {
 
-		value.changeElementAtTo(position,-1);
+		value.changeElementAtTo(position,9);
 
 		mine.changeElementAtTo(position,true);
 
