@@ -11,7 +11,25 @@
 
 //remove system("clear");
 
+//### #include "SaveManager.hpp"
+//### #include <fstream>
+
+#include "Element.hpp"
+
 int main() {
+/*
+	SaveManager manager{"save"};
+
+	Minefield minefield{Size{5,5},20};
+
+	manager.writeMatrix("save/1.txt",minefield.value);
+
+	std::cout
+		<< minefield.size
+		<< std::endl
+		<< manager.readMatrix<int>("save/1.txt");
+
+	return 0;*/
 
 	start:
 
@@ -48,7 +66,7 @@ int main() {
 			switch (input) {
 				case 'e':
 					////SPEICHERABZUG bei Aufruf in uncoverElement... sleepy
-					if(minefield.uncovered.getElementAt(player.position) == true) {
+					if(minefield.matrix.getElementAt(player.position).isUncovered() == true) {
 						minefield.uncoverNeighbours
 						(player.position,minefield.getNeighbours(player.position));
 					}

@@ -3,6 +3,7 @@
 #include "help/Matrix.hpp"
 #include "help/Position.hpp"
 #include "help/Size.hpp"
+#include "Element.hpp"
 #include <cmath>
 
 class Minefield {
@@ -17,10 +18,7 @@ private:
 public:
 
 	Size size;
-	Matrix<int> value;
-	Matrix<bool> uncovered;
-	Matrix<bool> flaged;
-	Matrix<bool> mine;
+	Matrix<Element> matrix;
 
 	Minefield(Size size, unsigned int percentageOfMines)
 		: mines{0}
@@ -28,10 +26,7 @@ public:
 		, dead{false}
 		, win{false}
 		, size{size.getX(),size.getY()}
-		, value{size}
-		, uncovered{size}
-		, flaged{size}
-		, mine{size}
+		, matrix{size}
 	{
 		unsigned int numberOfMines = size.getX() * size.getY() * percentageOfMines / 100;
 		placeMines(numberOfMines);

@@ -10,7 +10,7 @@ Position Minefield::getRandomZeroPosition() {
 	std::vector<Position> allZeroPositions;
 
 	MatrixOperation::iterate(size,[&](Position position) {
-		if(value.getElementAt(position) == 0) {
+		if(matrix.getElementAt(position).getValue() == 0) {
 			allZeroPositions.push_back(position);
 		}
 	});
@@ -39,7 +39,7 @@ void Minefield::placeMines(std::size_t count) {
 
 	std::vector<Position> positions;
 
-	positions.reserve(mine.getRows() * mine.getColumns());
+	positions.reserve(matrix.getRows() * matrix.getColumns());
 
 	MatrixOperation::iterate(size,[&](Position const&& position) {
 		positions.push_back(position);
@@ -49,9 +49,9 @@ void Minefield::placeMines(std::size_t count) {
 
 	for(Position const& position : positions) {
 
-		value.changeElementAtTo(position,9);
+		matrix.accessElementAt(position).setValue(9);
 
-		mine.changeElementAtTo(position,true);
+		matrix.accessElementAt(position).setMine(true);
 
 		++mines;
 		--count;
@@ -72,7 +72,7 @@ std::vector<Position> Minefield::getNeighbours(Position const& position) const {
 
 			Position neighbour{position.getX() + xpp,position.getY() + ypp};
 
-			if(value.isInsideMatrix(neighbour)) {
+			if(matrix.isInsideMatrix(neighbour)) {
 				neighbours.push_back(neighbour);
 			}
 		}
@@ -84,31 +84,31 @@ void Minefield::calculateMinefield() {
 
 	MatrixOperation::iterate(size,[&](Position const& position) {
 
-		if(mine.getElementAt(position) == false) {
+		if(matrix.getElementAt(position).hasMine() == false) {
 
 			std::vector<Position> neighbours = getNeighbours(position);
 
 			std::size_t count = 0;
 
 			for (Position const& neighbour : neighbours) {
-				if(mine.getElementAt(neighbour) == true) {
+				if(matrix.getElementAt(neighbour).hasMine() == true) {
 					++count;
 				}
 			}
-			value.changeElementAtTo(position,count);
+			matrix.accessElementAt(position).setValue(count);
 		}
 	});
 }
 
 void Minefield::setFlag(Position const& position) {
 
-	if(uncovered.getElementAt(position) == false) {
+	if(matrix.getElementAt(position).isUncovered() == false) {
 
-		if(flaged.getElementAt(position) == true) {
-			flaged.changeElementAtTo(position,false);
+		if(matrix.getElementAt(position).hasFlag() == true) {
+			matrix.accessElementAt(position).setFlag(false);
 			--flags;
 		} else {
-			flaged.changeElementAtTo(position,true);
+			matrix.accessElementAt(position).setFlag(true);
 			++flags;
 		}
 	}
@@ -116,16 +116,16 @@ void Minefield::setFlag(Position const& position) {
 
 void Minefield::uncoverElement(Position const& position) {
 
-	if(uncovered.getElementAt(position) == true) return;
-	if(flaged.getElementAt(position) == true) return;
+	if(matrix.getElementAt(position).isUncovered() == true) return;
+	if(matrix.getElementAt(position).hasFlag() == true) return;
 
-	if(mine.getElementAt(position) == true) {
+	if(matrix.getElementAt(position).hasMine() == true) {
 		dead = true;
 	}
 
-	uncovered.changeElementAtTo(position,true);
+	matrix.accessElementAt(position).setUncovered(true);
 
-	if(value.getElementAt(position) == 0) {
+	if(matrix.getElementAt(position).getValue() == 0) {
 		uncoverNeighbours(position,getNeighbours(position));
 	}
 }
@@ -137,16 +137,16 @@ void Minefield::uncoverNeighbours(
 	std::size_t count = 0;
 
 	for(Position const& position : neighbours) {
-		if(flaged.getElementAt(position) == true) {
+		if(matrix.getElementAt(position).hasFlag() == true) {
 			++count;
 		}
 	}
 
-	if(count == value.getElementAt(playerPosition)) {
+	if(matrix.getElementAt(playerPosition).getValue() == count) {
 
 		for(Position const& position : neighbours) {
 
-			if(flaged.getElementAt(position) == false) {
+			if(matrix.getElementAt(position).hasFlag() == false) {
 				uncoverElement(position);
 			}
 		}
@@ -158,8 +158,8 @@ bool Minefield::checkWin() {
 	if(flags == mines) {
 		std::size_t count = 0;
 		MatrixOperation::iterate(size,[&](Position position) {
-			if(mine.getElementAt(position)   == true
-			&& flaged.getElementAt(position) == true) {
+			if(matrix.getElementAt(position).hasMine()   == true
+			&& matrix.getElementAt(position).hasFlag() == true) {
 				++count;
 			}
 			if(count == mines) {

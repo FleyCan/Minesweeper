@@ -111,18 +111,18 @@ void Interface::printInterface(
 
 
 	std::cout << "┏";
-	for(std::size_t i = 0; i < minefield.value.getColumns(); i++) {
+	for(std::size_t i = 0; i < minefield.matrix.getColumns(); i++) {
 		std::cout << "━";
 	}
 	std::cout << "┓";
 
 	std::cout << std::endl;
 
-	for(std::size_t y = 0; y < minefield.value.getRows(); ++y) {
+	for(std::size_t y = 0; y < minefield.matrix.getRows(); ++y) {
 
 		std::cout << "┃";
 
-		for(std::size_t x = 0; x < minefield.value.getColumns(); ++x) {
+		for(std::size_t x = 0; x < minefield.matrix.getColumns(); ++x) {
 			bool flag = false;
 			bool player = false;
 			bool uncovered = false;
@@ -130,9 +130,9 @@ void Interface::printInterface(
 
 			Position position {x,y};
 
-			std::size_t value = minefield.value.getElementAt(position);
+			std::size_t value = minefield.matrix.getElementAt(position).getValue();
 
-			if(minefield.flaged.getElementAt(position) == true) {
+			if(minefield.matrix.getElementAt(position).hasFlag() == true) {
 				flag = true;
 			}
 
@@ -140,11 +140,11 @@ void Interface::printInterface(
 				player = true;
 			}
 
-			if(minefield.uncovered.getElementAt(position) == true) {
+			if(minefield.matrix.getElementAt(position).isUncovered() == true) {
 				uncovered = true;
 			}
 
-			if(minefield.mine.getElementAt(position) == true) {
+			if(minefield.matrix.getElementAt(position).hasMine() == true) {
 				mine = true;
 			}
 
@@ -185,7 +185,7 @@ void Interface::printInterface(
 	}
 
 	std::cout << "┗";
-	for(std::size_t i = 0; i < minefield.value.getColumns(); i++) {
+	for(std::size_t i = 0; i < minefield.matrix.getColumns(); i++) {
 		std::cout << "━";
 	}
 	std::cout << "┛";
@@ -211,8 +211,8 @@ void Interface::deadSequence(
 
 void Interface::winSequence(Minefield& minefield, Player const& player) {
 	MatrixOperation::iterate(minefield.size,[&](Position position) {
-		if(minefield.flaged.getElementAt(position) == false) {
-			minefield.uncovered.changeElementAtTo(position, true);
+		if(minefield.matrix.getElementAt(position).hasFlag() == false) {
+			minefield.matrix.accessElementAt(position).setUncovered(true);
 		}
 	});
 

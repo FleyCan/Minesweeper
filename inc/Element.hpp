@@ -12,6 +12,8 @@ struct Element {
 		data = value | 1;
 	}
 
+	Element() = default;
+
 	bool hasMine() {
 		return data[6];
 	}
@@ -24,7 +26,7 @@ struct Element {
 		return data[4];
 	}
 
-	int getValue() { //std::uint8_t doesn't work
+	std::uint16_t getValue() { //std::uint8_t doesn't work
 		std::uint8_t mask = (1 << 4) - 1; //0b00001111
 
 		std::uint8_t sum = data.to_ulong() & mask;
@@ -45,7 +47,7 @@ struct Element {
 	}
 
 	void setValue(std::uint8_t value) {
-		if(value > 8) return;
+		if(value > 9) return;
 
 		std::uint8_t mask = (1 << 4) - 1; //0b00001111
 

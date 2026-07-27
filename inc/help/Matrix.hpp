@@ -21,6 +21,16 @@ public:
 		: data(size.getY(),std::vector<T>(size.getX()))
 	{}
 
+	Matrix(Matrix<T> const& matrix)
+		: data(matrix.data)
+	{}
+
+	Matrix(std::vector<std::vector<T>> const& vector)
+	: data(vector)
+	{}
+
+	Matrix() = default;
+
 	std::size_t getRows() const {
 		return data.size();
 	}
@@ -44,6 +54,12 @@ public:
 	T getElementAt(const Position& position) const{
 		return data[position.getY()][position.getX()];
 	}
+
+	T& accessElementAt(const Position& position) {
+		return data[position.getY()][position.getX()];
+	}
+
+
 
 	bool isInsideMatrix(const Position& position) const{
 		return (position.getY() < getRows() && position.getX() < getColumns()) ? true : false;
@@ -72,7 +88,6 @@ struct MatrixOperation {
 
 		}
 	}
-
 };
 
 
