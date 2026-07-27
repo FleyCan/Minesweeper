@@ -48,9 +48,17 @@ struct SaveManager {
 	template<typename T>
 	Matrix<T> readMatrix(std::string filename) {
 		std::vector<std::vector<T>> vector;
+		std::size_t x{};
+		std::size_t y{};
+
 		T element{};
 		std::string line{};
 		std::ifstream in{filename};
+
+		std::getline(in,line);
+		std::istringstream iss{line};
+		iss >> x;
+		iss >> y;
 
 		while(std::getline(in,line)) {
 			std::istringstream iss{line};

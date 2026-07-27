@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <ostream>
 
 class Size {
 
@@ -16,6 +17,12 @@ public:
 	}
 	std::size_t getY() const {
 		return y;
+	}
+
+	friend
+	std::ostream& operator<<(std::ostream& os, const Size& size) {
+		os << '[' << size.x << "][" << size.y << ']';
+		return os;
 	}
 
 };
