@@ -1,11 +1,10 @@
 #include <random>
-#include <algorithm> //for std::shuffle needed...?
+#include <algorithm>
 
 #include "Minefield.hpp"
 #include "help/Matrix.hpp"
 #include "help/Position.hpp"
 
-//always at the border of the minefield??... debug session needed
 Position Minefield::getRandomZeroPosition() {
 	std::vector<Position> allZeroPositions;
 
@@ -20,7 +19,6 @@ Position Minefield::getRandomZeroPosition() {
 
 	std::shuffle(allZeroPositions.begin(), allZeroPositions.end(), gen);
 
-	//set a random position to zero would make more sense... maybe... what if it's 2 x 2
 	if(allZeroPositions.empty()) {
 		return Position{0,0};
 	}
@@ -114,24 +112,27 @@ void Minefield::setFlag(Position const& position) {
 	}
 }
 
-void Minefield::uncoverElement(Position const& position) {
+void Minefield::uncoverElement(Position const& position, bool firstCall) {
 
-	if(matrix.getElementAt(position).isUncovered() == true) return;
 	if(matrix.getElementAt(position).hasFlag() == true) return;
-
-	if(matrix.getElementAt(position).hasMine() == true) {
-		dead = true;
-	}
 
 	matrix.accessElementAt(position).setUncovered(true);
 
 	if(matrix.getElementAt(position).getValue() == 0) {
 		uncoverNeighbours(position,getNeighbours(position));
 	}
+
+	if(matrix.getElementAt(position).isUncovered() && firstCall) {
+		uncoverNeighbours(position,getNeighbours(position));
+	}
+
+	if(matrix.getElementAt(position).hasMine() == true) {
+		dead = true;
+	}
 }
 
 void Minefield::uncoverNeighbours(
-	  Position const& playerPosition
+	  Position const& position
 	, std::vector<Position> const& neighbours) {
 
 	std::size_t count = 0;
@@ -142,12 +143,12 @@ void Minefield::uncoverNeighbours(
 		}
 	}
 
-	if(matrix.getElementAt(playerPosition).getValue() == count) {
-
+	if(matrix.getElementAt(position).getValue() == count) {
 		for(Position const& position : neighbours) {
-
-			if(matrix.getElementAt(position).hasFlag() == false) {
-				uncoverElement(position);
+			if(!matrix.getElementAt(position).hasFlag()
+			&& !matrix.getElementAt(position).isUncovered()
+			) {
+				uncoverElement(position, false);
 			}
 		}
 	}

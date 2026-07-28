@@ -52,7 +52,7 @@ public:
 
 	void setFlag(Position const& position);
 
-	void uncoverElement(Position const& position);
+	void uncoverElement(Position const& position, bool firstCall);
 
 	void uncoverNeighbours(Position const& playerPosition,std::vector<Position> const& neighbours);
 

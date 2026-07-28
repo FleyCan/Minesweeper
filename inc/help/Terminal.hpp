@@ -1,3 +1,5 @@
+#pragma once
+
 #include <ncurses.h>
 
 struct Terminal {
@@ -7,7 +9,6 @@ struct Terminal {
 	~Terminal();
 
 	static int getInput();
-
 };
 
 
