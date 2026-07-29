@@ -37,6 +37,7 @@ PERCENTAGE
  d - right  
  e - uncover  
  f - set/remove flag  
+ q - save/load  
  
 ## Requirements
 
@@ -47,8 +48,7 @@ UTF-8 support (recommended) - e.g. KDE Plasma Console
 
 ## Plans
 
-Support the version without ncurses.  
-Add a save file system to continue playing the last session.  
+Support the version without ncurses.   
 Add support for other platforms.  
 Give an option to use UTF-8.  
 Add the chance for a mine to every element.  
