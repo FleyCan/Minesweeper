@@ -43,7 +43,7 @@ struct Element {
 	}
 
 	std::uint8_t getValue() {
-		return State::to_uint8_t(state);
+		return state.value;
 	}
 
 	void setMine(bool value) {
