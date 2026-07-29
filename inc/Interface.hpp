@@ -27,6 +27,10 @@ public:
 
 	static void printInterface(Position playerPosition, const Minefield& minefield);
 
+	static void printSaveMenu(int LSindex);
+
+	static void printFileList(std::vector<std::string> files, int index);
+
 	static void deadSequence(Minefield const& minefield, Player const& player);
 
 	static void winSequence(Minefield& minefield, Player const& player);

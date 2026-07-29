@@ -8,7 +8,7 @@
 Position Minefield::getRandomZeroPosition() {
 	std::vector<Position> allZeroPositions;
 
-	MatrixOperation::iterate(size,[&](Position position) {
+	MatrixOperation::iterate(matrix.getSize(),[&](Position position) {
 		if(matrix.getElementAt(position).getValue() == 0) {
 			allZeroPositions.push_back(position);
 		}
@@ -39,7 +39,7 @@ void Minefield::placeMines(std::size_t count) {
 
 	positions.reserve(matrix.getRows() * matrix.getColumns());
 
-	MatrixOperation::iterate(size,[&](Position const&& position) {
+	MatrixOperation::iterate(matrix.getSize(),[&](Position const&& position) {
 		positions.push_back(position);
 	});
 
@@ -80,7 +80,7 @@ std::vector<Position> Minefield::getNeighbours(Position const& position) const {
 
 void Minefield::calculateMinefield() {
 
-	MatrixOperation::iterate(size,[&](Position const& position) {
+	MatrixOperation::iterate(matrix.getSize(),[&](Position const& position) {
 
 		if(matrix.getElementAt(position).hasMine() == false) {
 
@@ -158,7 +158,7 @@ bool Minefield::checkWin() {
 
 	if(flags == mines) {
 		std::size_t count = 0;
-		MatrixOperation::iterate(size,[&](Position position) {
+		MatrixOperation::iterate(matrix.getSize(),[&](Position position) {
 			if(matrix.getElementAt(position).hasMine()   == true
 			&& matrix.getElementAt(position).hasFlag() == true) {
 				++count;

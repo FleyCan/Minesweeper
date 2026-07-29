@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 struct FileManager {
 
@@ -24,6 +25,8 @@ struct FileManager {
 			//Are the "" needed?
 			files.push_back(entry.path().filename());
 		}
+
+		std::sort(files.begin(),files.end());
 	}
 
 	template<typename T>
@@ -48,7 +51,7 @@ struct FileManager {
 
 	template<typename T>
 	Matrix<T> readMatrix(std::string filename) {
-		if(!isValidFile(filename)) return Matrix<T>{};
+		//if(!isValidFile(filename)) return Matrix<T>{};
 
 		std::vector<std::vector<T>> vector;
 		std::size_t x{};
@@ -62,6 +65,8 @@ struct FileManager {
 		std::istringstream iss{line};
 		iss >> x;
 		iss >> y;
+
+		std::size_t count = 0;
 
 		while(std::getline(in,line)) {
 			std::istringstream iss{line};
@@ -89,6 +94,10 @@ struct FileManager {
 			}
 
 			vector.push_back(row);
+			++count;
+
+			if(count == y) break;
+
 		}
 		return Matrix{vector};
 	}

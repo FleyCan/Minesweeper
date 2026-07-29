@@ -2,6 +2,8 @@
 #include "Interface.hpp"
 #include "help/Terminal.hpp"
 
+#include <string>
+#include <vector>
 
 
 bool GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentageOfMines) {
@@ -111,4 +113,74 @@ double GameMenu::choosePercentage() {
 				return percentage;
 		}
 	}
+}
+
+bool GameMenu::saveMenu(std::vector<std::string> files,std::string& RWfilename) {
+
+	Menu menu{};
+
+	menu.addOptions("Load","Save");
+
+	while (true) {
+
+		system("clear");
+
+		Interface::printSaveMenu(menu.giveCurrentOptionIndex());
+
+		int input = Terminal::getInput();
+
+		switch (input) {
+			case 'w':
+				menu.up();
+			break;
+			case 's':
+				menu.down();
+			break;
+			case 'e':
+				input = 0;
+
+				Menu fileList;
+
+				for(std::string filename : files) {
+					fileList.addOptions(filename);
+				}
+
+				while(true) {
+
+					system("clear");
+
+					Interface::printFileList(
+						files
+						,fileList.giveCurrentOptionIndex()
+					);
+
+					int input = Terminal::getInput();
+
+					switch (input) {
+						case 'w':
+							fileList.up();
+							break;
+						case 's':
+							fileList.down();
+							break;
+					}
+
+					if(input == 'e') {
+						RWfilename = fileList.giveCurrentOptionString();
+						break;
+					}
+				}
+
+				input = 0;
+
+				if(menu.giveCurrentOptionIndex() == 0) {
+					return true;
+				}
+				if(menu.giveCurrentOptionIndex() == 1) {
+					return false;
+				}
+			break;
+		}
+	}
+
 }

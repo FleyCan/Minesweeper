@@ -210,7 +210,7 @@ void Interface::deadSequence(
 }
 
 void Interface::winSequence(Minefield& minefield, Player const& player) {
-	MatrixOperation::iterate(minefield.size,[&](Position position) {
+	MatrixOperation::iterate(minefield.matrix.getSize(),[&](Position position) {
 		if(minefield.matrix.getElementAt(position).hasFlag() == false) {
 			minefield.matrix.accessElementAt(position).setUncovered(true);
 		}
@@ -239,3 +239,32 @@ void Interface::invalidInput() {
 	}
 }
 
+void Interface::printSaveMenu(int LSindex) {
+	if(LSindex == 0) {
+		Colorization::setTextColor(Color::red);
+		std::cout << "Load";
+		Colorization::resetColor();
+		std::cout << std::endl << "Save" << std::endl << std::endl;
+	} else {
+		std::cout << "Load" << std::endl;
+		Colorization::setTextColor(Color::red);
+		std::cout << "Save";
+		Colorization::resetColor();
+		std::cout << std::endl << std::endl;
+	}
+}
+
+void Interface::printFileList(std::vector<std::string> files, int index) {
+	int count;
+	for(std::string filename : files) {
+		if(index == count) {
+			Colorization::setTextColor(Color::red);
+			std::cout << filename << std::endl;
+			Colorization::resetColor();
+		} else {
+			std::cout << filename << std::endl;
+		}
+
+		++count;
+	}
+}

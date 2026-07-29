@@ -7,8 +7,13 @@
 #include "help/Position.hpp"
 #include "Interface.hpp"
 #include "help/Terminal.hpp"
+#include "SaveManager.hpp"
 
 int main() {
+
+	SaveManager saveManager{"save/"};
+
+	std::string filename;
 
 	start:
 
@@ -49,6 +54,14 @@ int main() {
 
 				case 'f':
 					minefield.setFlag(player.position);
+				break;
+
+				case 'q':
+					if(menu.saveMenu(saveManager.files,filename)) {
+						minefield = saveManager.readSave(filename,player.position);
+					} else {
+						saveManager.writeSave(filename,minefield,player.position);
+					}
 				break;
 
 				default:
