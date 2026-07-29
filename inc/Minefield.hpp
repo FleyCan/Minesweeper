@@ -17,7 +17,6 @@ private:
 
 public:
 
-	Size size;
 	Matrix<Element> matrix;
 
 	Minefield(Size size, unsigned int percentageOfMines)
@@ -25,13 +24,21 @@ public:
 		, flags{0}
 		, dead{false}
 		, win{false}
-		, size{size.getX(),size.getY()}
 		, matrix{size}
 	{
-		unsigned int numberOfMines = size.getX() * size.getY() * percentageOfMines / 100;
+		unsigned int numberOfMines = matrix.getSize().getX() * matrix.getSize().getY() * percentageOfMines / 100;
 		placeMines(numberOfMines);
 		calculateMinefield();
+
 	}
+
+	Minefield(Matrix<Element> const& matrix, std::size_t mines, std::size_t flags)
+		: matrix{matrix}
+		, mines{mines}
+		, flags{flags}
+		, dead{false}
+		, win{false}
+	{}
 
 	~Minefield() = default;
 
@@ -59,4 +66,16 @@ public:
 	void uncoveredZero(Position const& position);
 
 	bool checkWin();
+
+	friend
+	std::ostream& operator<<(std::ostream& os, Minefield const& minefield) {
+		os << minefield.matrix.getSize() << std::endl;
+		os << minefield.matrix << std::endl;
+		os << "mines = " << minefield.mines << std::endl;
+		os << "flags = " << minefield.flags << std::endl;
+		os << "dead = " << minefield.dead  << std::endl;
+		os << "win = " << minefield.win   << std::endl;
+
+		return os;
+	}
 };
