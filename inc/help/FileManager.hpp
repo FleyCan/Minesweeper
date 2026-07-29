@@ -2,6 +2,7 @@
 #include "help/Matrix.hpp"
 #include "help/Position.hpp"
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -9,12 +10,12 @@
 #include <fstream>
 #include <sstream>
 
-struct SaveManager {
+struct FileManager {
 
 	std::string path;
 	std::vector<std::string> files;
 
-	SaveManager(std::string path)
+	FileManager(std::string path)
 		: path{path}
 	{
 		for(std::filesystem::directory_entry const& entry
@@ -30,7 +31,7 @@ struct SaveManager {
 		  std::string filename
 		, Matrix<T> const& matrix)
 	{
-		std::ofstream out{filename};
+		std::ofstream out{path + filename};
 
 		out << matrix.getColumns()
 			<< ' '
@@ -47,13 +48,15 @@ struct SaveManager {
 
 	template<typename T>
 	Matrix<T> readMatrix(std::string filename) {
+		if(!isValidFile(filename)) return Matrix<T>{};
+
 		std::vector<std::vector<T>> vector;
 		std::size_t x{};
 		std::size_t y{};
 
 		T element{};
 		std::string line{};
-		std::ifstream in{filename};
+		std::ifstream in{path + filename};
 
 		std::getline(in,line);
 		std::istringstream iss{line};
@@ -63,12 +66,37 @@ struct SaveManager {
 		while(std::getline(in,line)) {
 			std::istringstream iss{line};
 			std::vector<T> row;
-			while(iss >> element) {
+
+			auto extract = [&]() {
+				if constexpr(
+					   std::is_same_v<T, char>
+					|| std::is_same_v<T, char signed>
+					|| std::is_same_v<T, char unsigned>
+					|| std::is_same_v<T, std::int8_t>
+					|| std::is_same_v<T, std::uint8_t>
+				) {
+					std::int16_t x;
+					iss >> x;
+					element = x;
+				} else {
+					iss >> element;
+				}
+				return static_cast<bool>(iss);
+			};
+
+			while(extract()) {
 				row.push_back(element);
 			}
 
 			vector.push_back(row);
 		}
 		return Matrix{vector};
+	}
+
+	bool isValidFile(std::string filename) {
+		for(std::string registeredFile : files) {
+			if(registeredFile == filename) return true;
+		}
+		return false;
 	}
 };
