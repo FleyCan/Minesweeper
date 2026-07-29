@@ -68,8 +68,10 @@ public:
 	friend
 	std::ostream& operator<<(std::ostream& os, Matrix const& matrix) {
 		for(const std::vector<T>& vector : matrix.data) {
+			char sep{};
 			for(const T& element : vector) {
-				os << element;
+				os << sep << element;
+				sep = ' ';
 			}
 			os << std::endl;
 		}
