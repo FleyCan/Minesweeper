@@ -1,64 +1,116 @@
 #pragma once
 
-#include <bitset>
+#include <bit>
+#include <cassert>
 #include <cstdint>
 #include <ostream>
+#include <istream>
 
 struct Element {
+	struct State {
+		std::uint8_t value        : 4;
+		std::uint8_t is_uncovered : 1;
+		std::uint8_t has_flag     : 1;
+		std::uint8_t has_mine     : 1;
 
-	std::bitset<7> data{};
+		static State from_uint8_t(std::uint8_t value) {
+			return std::bit_cast<State>(value);
+		}
+		static std::uint8_t to_uint8_t(State state) {
+			return std::bit_cast<std::uint8_t>(state);
+		}
+	};
+	static_assert(sizeof(State) == sizeof(std::uint8_t));
 
-	Element(std::uint8_t value) {
-		data = value | 1;
-	}
+	State state;
+
+	Element(std::uint8_t value)
+		: state{State::from_uint8_t(value)}
+	{}
 
 	Element() = default;
 
 	bool hasMine() {
-		return data[6];
+		return state.has_mine;
 	}
 
 	bool hasFlag() {
-		return data[5];
+		return state.has_flag;
 	}
 
 	bool isUncovered() {
-		return data[4];
+		return state.is_uncovered;
 	}
 
-	std::uint16_t getValue() { //std::uint8_t doesn't work
-		std::uint8_t mask = (1 << 4) - 1; //0b00001111
-
-		std::uint8_t sum = data.to_ulong() & mask;
-
-		return sum;
+	std::uint8_t getValue() {
+		return State::to_uint8_t(state);
 	}
 
-	void setMine(bool state) {
-		data[6] = state;
+	void setMine(bool value) {
+		state.has_mine = value;
 	}
 
-	void setFlag(bool state) {
-		data[5] = state;
+	void setFlag(bool value) {
+		state.has_flag = value;
 	}
 
-	void setUncovered(bool state) {
-		data[4] = state;
+	void setUncovered(bool value) {
+		state.is_uncovered = value;
 	}
 
 	void setValue(std::uint8_t value) {
-		if(value > 9) return;
+		assert(value < 10);
+		state.value = value;
+	}
 
-		std::uint8_t mask = (1 << 4) - 1; //0b00001111
-
-		data = (data.to_ulong() & ~mask) | value;
+#if 0
+	friend
+	std::istream& operator>>(std::istream& is, Element& element) {
+		std::uint16_t x;
+		is >> x;
+		if(is) {
+			element.state = State::from_uint8_t(x);
+		}
+		return is;
 	}
 
 	friend
 	std::ostream& operator<<(std::ostream& os, Element const& element)
 	{
-		os << element.data;
+		os << static_cast<std::uint16_t>(State::to_uint8_t(element.state));
 		return os;
 	}
+#else
+	friend
+	std::istream& operator>>(std::istream& is, Element& element) {
 
+		std::uint16_t value = 0;
+		bool has_mine     = false;
+		bool has_flag     = false;
+		bool is_uncovered = false;
+		char sep;
+		is >> has_mine >> sep;
+		is >> has_flag >> sep;
+		is >> is_uncovered >> sep;
+		is >> value;
+		if(is) {
+			element.state.value        = value;
+			element.state.is_uncovered = is_uncovered;
+			element.state.has_flag     = has_flag;
+			element.state.has_mine     = has_mine;
+		}
+		return is;
+	}
+
+	friend
+	std::ostream& operator<<(std::ostream& os, Element const& element)
+	{
+		os  << static_cast<std::uint16_t>(element.state.has_mine)
+			<< ':' << static_cast<std::uint16_t>(element.state.has_flag)
+			<< ':' << static_cast<std::uint16_t>(element.state.is_uncovered)
+			<< ':' << static_cast<std::uint16_t>(element.state.value)
+		;
+		return os;
+	}
+#endif
 };
