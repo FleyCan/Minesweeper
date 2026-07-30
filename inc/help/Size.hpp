@@ -23,13 +23,13 @@ public:
 	}
 
 	friend
-	std::ostream& operator<<(std::ostream& os, const Size& size) {
+	std::ostream& operator<<(std::ostream& os,Size const& size) {
 		os << '[' << size.x << "][" << size.y << ']';
 		return os;
 	}
 
 	friend
-	std::istream& operator>>(std::istream& is, const Size& size) {
+	std::istream& operator>>(std::istream& is,Size& size) {
 		std::size_t x;
 		std::size_t y;
 		char sep{};
@@ -38,6 +38,10 @@ public:
 	       >> sep >> sep
 	       >> y
 	       >> sep;
+
+		size.x = x;
+		size.y = y;
+
 		return is;
 	}
 

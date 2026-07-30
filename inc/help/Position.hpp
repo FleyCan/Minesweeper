@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <ostream>
+#include <istream>
 
 class Position {
 
@@ -35,8 +36,27 @@ public:
 	bool operator!=(const Position& other);
 
 	friend
-	std::ostream& operator<<(std::ostream& os, const Position& coordinates) {
-		os << '[' << coordinates.x << "][" << coordinates.y << ']';
+	std::ostream& operator<<(std::ostream& os, Position const& position) {
+		os << '[' << position.x << "][" << position.y << ']';
 		return os;
+	}
+
+	friend
+	std::istream& operator>>(std::istream& is, Position& position) {
+		std::size_t x;
+		std::size_t y;
+		char sep{};
+		is >> sep
+		   >> x
+		   >> sep
+		   >> sep
+		   >> y
+		   >> sep;
+
+		position.x = x;
+
+		position.y = y;
+
+		return is;
 	}
 };
