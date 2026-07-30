@@ -46,10 +46,12 @@ GameMenu::event GameMenu::mainMenu(
 						percentageOfMines = choosePercentage();
 						return start;
 					case 2:
-						for(std::string filename : files) {
-							fileList.addOptions(filename);
+						if(!files.empty()) {
+							for(std::string filename : files) {
+								fileList.addOptions(filename);
+							}
+							filename = chooseFile(fileList);
 						}
-						filename = chooseFile(fileList);
 						return load;
 					case 3:
 						return quit;
@@ -158,14 +160,16 @@ bool GameMenu::saveMenu(std::vector<std::string> files,std::string& filename) {
 					fileList.addOptions(filename);
 				}
 
-				filename = chooseFile(fileList);
-
 				input = 0;
 
-				if(menu.giveCurrentOptionIndex() == 0) {
+				if(menu.giveCurrentOptionIndex() == 0) { //LOAD
+					if(files.empty()) return true;
+					filename = chooseFile(fileList);
 					return true;
 				}
-				if(menu.giveCurrentOptionIndex() == 1) {
+				if(menu.giveCurrentOptionIndex() == 1) { //SAVE
+					fileList.addOptions("_NEW_");
+					filename = chooseFile(fileList);
 					return false;
 				}
 			break;

@@ -11,13 +11,13 @@
 
 int main() {
 
+	start:
+
 	SaveManager saveManager{"save/"};
 
 	Player player{};
 
 	std::string filename;
-
-	start:
 
 	std::size_t x = 20;
 	std::size_t y = 10;
@@ -29,11 +29,18 @@ int main() {
 
 		GameMenu menu;
 
-		GameMenu::event event = menu.mainMenu(x,y,percentageOfMines,saveManager.files,filename);
+		GameMenu::event event = menu.mainMenu(
+			  x
+			, y
+			, percentageOfMines
+			, saveManager.files
+			, filename
+		);
 
 		if(event == GameMenu::quit) return 0;
 
 		if(event == GameMenu::load) {
+			if(saveManager.files.empty()) goto start;
 			minefield = saveManager.readSave(filename,player.position);
 		} else {
 
@@ -73,6 +80,7 @@ int main() {
 				case 'q':
 					filename = std::string{};
 					if(menu.saveMenu(saveManager.files,filename)) {
+						if(saveManager.files.empty()) break;
 						minefield = saveManager.readSave(filename,player.position);
 					} else {
 						saveManager.writeSave(filename,minefield,player.position);

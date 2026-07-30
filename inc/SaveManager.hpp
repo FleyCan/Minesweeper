@@ -57,6 +57,14 @@ public:
 		, Minefield const& minefield
 		, Position const& playerPosition
 	) {
+		if(filename == "_NEW_") {
+			system("clear");
+
+			std::cout << "Choose a name for your save-file: " << std::endl;
+			std::cin >> filename;
+
+			files.push_back(filename);
+		}
 		writeMatrix(filename,minefield.matrix);
 
 		std::ofstream out{path + filename,std::ios::app};
