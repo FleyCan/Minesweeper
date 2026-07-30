@@ -6,11 +6,16 @@
 #include <vector>
 
 
-bool GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentageOfMines) {
-
+GameMenu::event GameMenu::mainMenu(
+	  std::size_t& x
+	, std::size_t& y
+	, unsigned int& percentageOfMines
+	, std::vector<std::string> files
+	, std::string& filename)
+{
 	Menu menu;
 
-	menu.addOptions("Minesweeper","Start","Quit");
+	menu.addOptions("Minesweeper","Start","Load","Quit");
 
 	menu.down();
 
@@ -18,9 +23,11 @@ bool GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentage
 
 	while(true) {
 
-		Interface::printGameMenu(menu.giveCurrentOptionIndex());
+		Interface::printMenu(menu);
 
 		input = Terminal::getInput();
+
+		Menu fileList;
 
 		switch (input) {
 			case'w':
@@ -37,9 +44,15 @@ bool GameMenu::mainMenu(std::size_t& x, std::size_t& y, unsigned int& percentage
 						x = chooseSize(x,y,'x');
 						y = chooseSize(x,y,'y');
 						percentageOfMines = choosePercentage();
-						return true;
+						return start;
 					case 2:
-						return false;
+						for(std::string filename : files) {
+							fileList.addOptions(filename);
+						}
+						filename = chooseFile(fileList);
+						return load;
+					case 3:
+						return quit;
 				}
 		}
 	}
@@ -115,7 +128,7 @@ double GameMenu::choosePercentage() {
 	}
 }
 
-bool GameMenu::saveMenu(std::vector<std::string> files,std::string& RWfilename) {
+bool GameMenu::saveMenu(std::vector<std::string> files,std::string& filename) {
 
 	Menu menu{};
 
@@ -125,7 +138,7 @@ bool GameMenu::saveMenu(std::vector<std::string> files,std::string& RWfilename) 
 
 		system("clear");
 
-		Interface::printSaveMenu(menu.giveCurrentOptionIndex());
+		Interface::printMenu(menu);
 
 		int input = Terminal::getInput();
 
@@ -145,31 +158,7 @@ bool GameMenu::saveMenu(std::vector<std::string> files,std::string& RWfilename) 
 					fileList.addOptions(filename);
 				}
 
-				while(true) {
-
-					system("clear");
-
-					Interface::printFileList(
-						files
-						,fileList.giveCurrentOptionIndex()
-					);
-
-					int input = Terminal::getInput();
-
-					switch (input) {
-						case 'w':
-							fileList.up();
-							break;
-						case 's':
-							fileList.down();
-							break;
-					}
-
-					if(input == 'e') {
-						RWfilename = fileList.giveCurrentOptionString();
-						break;
-					}
-				}
+				filename = chooseFile(fileList);
 
 				input = 0;
 
@@ -182,5 +171,27 @@ bool GameMenu::saveMenu(std::vector<std::string> files,std::string& RWfilename) 
 			break;
 		}
 	}
+}
 
+std::string GameMenu::chooseFile(Menu& fileList) {
+	while(true) {
+
+		system("clear");
+
+		Interface::printMenu(fileList);
+
+		int input = Terminal::getInput();
+
+		switch (input) {
+			case 'w':
+				fileList.up();
+			break;
+			case 's':
+				fileList.down();
+			break;
+			case 'e':
+				return fileList.giveCurrentOptionString();
+			break;
+		}
+	}
 }

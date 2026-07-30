@@ -7,6 +7,8 @@
 #include <iostream>
 #include <concepts>
 
+#include "help/Colorization.hpp"
+
 class Menu {
 
 private:
@@ -49,9 +51,12 @@ public:
 	std::ostream& operator<<(std::ostream& os, Menu const& menu) {
 		for(int i = 0; i < menu.giveNumberOfOptions(); i++) {
 			if(menu.currentOptionIndex == i) {
-				os << '>';
+				Colorization::setTextColor(Color::red);
+				os << menu.optionList[i] << std::endl;
+				Colorization::resetColor();
+			} else {
+				os << menu.optionList[i] << std::endl;
 			}
-			os << '[' << i << "] " << menu.optionList[i] << std::endl;
 		}
 		return os;
 	}

@@ -13,6 +13,8 @@ int main() {
 
 	SaveManager saveManager{"save/"};
 
+	Player player{};
+
 	std::string filename;
 
 	start:
@@ -23,21 +25,33 @@ int main() {
 
 	while(true) {
 
-		std::size_t input = 0;
+		Minefield minefield{};
 
 		GameMenu menu;
-		if(!menu.mainMenu(x,y,percentageOfMines)) return 0;
 
-		if(x == 0 || y == 0) {
-			Interface::invalidInput();
-			goto start;
+		GameMenu::event event = menu.mainMenu(x,y,percentageOfMines,saveManager.files,filename);
+
+		if(event == GameMenu::quit) return 0;
+
+		if(event == GameMenu::load) {
+			minefield = saveManager.readSave(filename,player.position);
+		} else {
+
+			if(x == 0 || y == 0) {
+				Interface::invalidInput();
+				goto start;
+			}
+
+			minefield = Minefield{Size{x,y},percentageOfMines};
+
+			player.position.setPosition(minefield.getRandomZeroPosition());
+
 		}
 
-		Minefield minefield{Size{x,y},percentageOfMines};
+		player.maxX = minefield.matrix.getSize().getX() - 1;
+		player.maxY = minefield.matrix.getSize().getY() - 1;
 
-		Player player{x - 1,y - 1};
-
-		player.position.setPosition(minefield.getRandomZeroPosition());
+		std::size_t input = 0;
 
 		while(true) {
 
@@ -57,6 +71,7 @@ int main() {
 				break;
 
 				case 'q':
+					filename = std::string{};
 					if(menu.saveMenu(saveManager.files,filename)) {
 						minefield = saveManager.readSave(filename,player.position);
 					} else {
@@ -84,7 +99,3 @@ int main() {
 	}
 	return 0;
 }
-
-
-
-

@@ -61,18 +61,9 @@ void Interface::printLowerBox(unsigned int length) {
 	std::cout << "┛";
 }
 
-void Interface::printGameMenu(std::size_t index) {
+void Interface::printMenu(Menu const& menu) {
 	system("clear");
-
-	std::cout << "Minesweeper" << std::endl;
-
-	if(index == 1) Colorization::setTextColor(Color::red);
-	std::cout << "Start" << std::endl;
-	Colorization::resetColor();
-
-	if(index == 2) Colorization::setTextColor(Color::red);
-	std::cout << "Quit" << std::endl;
-	Colorization::resetColor();
+	std::cout << menu;
 }
 
 void Interface::printChooseSize(std::size_t const& x, std::size_t const& y, char direction) {
@@ -236,35 +227,5 @@ void Interface::invalidInput() {
 		std::cout << std::endl << " press e to continue!" << std::endl;
 
 		input = Terminal::getInput();
-	}
-}
-
-void Interface::printSaveMenu(int LSindex) {
-	if(LSindex == 0) {
-		Colorization::setTextColor(Color::red);
-		std::cout << "Load";
-		Colorization::resetColor();
-		std::cout << std::endl << "Save" << std::endl << std::endl;
-	} else {
-		std::cout << "Load" << std::endl;
-		Colorization::setTextColor(Color::red);
-		std::cout << "Save";
-		Colorization::resetColor();
-		std::cout << std::endl << std::endl;
-	}
-}
-
-void Interface::printFileList(std::vector<std::string> files, int index) {
-	int count;
-	for(std::string filename : files) {
-		if(index == count) {
-			Colorization::setTextColor(Color::red);
-			std::cout << filename << std::endl;
-			Colorization::resetColor();
-		} else {
-			std::cout << filename << std::endl;
-		}
-
-		++count;
 	}
 }

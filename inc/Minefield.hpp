@@ -40,6 +40,8 @@ public:
 		, win{false}
 	{}
 
+	Minefield() = default;
+
 	~Minefield() = default;
 
 	std::size_t getMines() const {return mines;}

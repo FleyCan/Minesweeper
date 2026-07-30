@@ -4,14 +4,16 @@
 
 class Player {
 
-private:
+public:
+
 	std::size_t maxX;
 	std::size_t maxY;
 
-public:
 	Position position;
 
 	Player(std::size_t maxX, std::size_t maxY);
+
+	Player() = default;
 
 	void move(std::size_t input);
 };
