@@ -19,7 +19,9 @@ struct FileManager {
 		  : std::filesystem::directory_iterator(path))
 		{
 			//Are the "" needed?
-			files.push_back(entry.path().filename());
+			std::string filename = entry.path().filename();
+			if(filename[0] == '.') continue;
+			files.push_back(filename);
 		}
 
 		std::sort(files.begin(),files.end());
