@@ -4,6 +4,9 @@
 #include <vector>
 #include <cstddef>
 #include <ostream>
+#include <istream>
+#include <sstream>
+#include <iostream>
 
 #include "Position.hpp"
 #include "Size.hpp"
@@ -50,7 +53,6 @@ public:
 		data[position.getY()][position.getX()] = newElement;
 	}
 
-
 	T getElementAt(const Position& position) const{
 		return data[position.getY()][position.getX()];
 	}
@@ -59,23 +61,70 @@ public:
 		return data[position.getY()][position.getX()];
 	}
 
-
-
 	bool isInsideMatrix(const Position& position) const{
 		return (position.getY() < getRows() && position.getX() < getColumns()) ? true : false;
 	}
 
-	friend
+	friend //Size doesn't have a std::endl; This does have one at the end...
 	std::ostream& operator<<(std::ostream& os, Matrix const& matrix) {
+		os << matrix.getSize() << '\n';
+
 		for(const std::vector<T>& vector : matrix.data) {
-			char sep{};
+			char const* sep = "";
 			for(const T& element : vector) {
 				os << sep << element;
-				sep = ' ';
+				sep = " ";
 			}
-			os << std::endl;
+			os << '\n';
 		}
 		return os;
+	}
+
+	friend
+	std::istream& operator>>(std::istream& is, Matrix& matrix) {
+		std::vector<std::vector<T>> vector;
+
+		Size size{};
+		is >> size;
+
+		std::string line{};
+		while( vector.size() < size.getY() && std::getline(is,line)) {
+			// while(!line.empty() && line.front() == 0) {
+			// 	line = line.substr(1);
+			// }
+			if(line.empty()) {
+				continue;
+			}
+
+			std::istringstream iss{line};
+			std::vector<T> row_data;
+			T element{};
+			auto extract = [&]() {
+				if constexpr(
+					std::is_same_v<T, char>
+					|| std::is_same_v<T, char signed>
+					|| std::is_same_v<T, char unsigned>
+					|| std::is_same_v<T, std::int8_t>
+					|| std::is_same_v<T, std::uint8_t>
+				) {
+					std::int16_t x;
+					iss >> x;
+					element = x;
+				} else {
+					iss >> element;
+				}
+				return static_cast<bool>(iss);
+			};
+
+			while(row_data.size() < size.getX() && extract()) {
+				row_data.push_back(element);
+			}
+			vector.push_back(row_data);
+		}
+
+		matrix = Matrix{vector};
+
+		return is;
 	}
 };
 
@@ -91,9 +140,3 @@ struct MatrixOperation {
 		}
 	}
 };
-
-
-
-
-
-
