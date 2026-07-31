@@ -17,3 +17,10 @@ int Terminal::getInput() {
 	return getch();
 }
 
+bool Terminal::waitForCharacter(char c) {
+	int input = 0;
+	input = Terminal::getInput();
+	if(input == c) return false;
+	return true;
+}
+

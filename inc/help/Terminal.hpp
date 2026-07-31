@@ -9,6 +9,8 @@ struct Terminal {
 	~Terminal();
 
 	static int getInput();
+
+	static bool waitForCharacter(char c);
 };
 
 

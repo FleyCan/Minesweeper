@@ -3,7 +3,6 @@
 #include "Interface.hpp"
 #include "Minefield.hpp"
 #include "help/Colorization.hpp"
-#include "help/Terminal.hpp"
 
 void Interface::printColoredNumber(std::size_t number) {
 
@@ -184,48 +183,25 @@ void Interface::printInterface(
 	std::cout << std::endl;
 }
 
-void Interface::deadSequence(
+void Interface::printDeadSequence(
 	  Minefield const& minefield
 	, Player const& player)
 {
-	int input = 0;
-	while(input != 'e') {
 		system("clear");
 		Interface::printInterface(player.position,minefield);
 		std::cout << "\033[31m" << "DEAD" << "\033[0m" << std::endl;
 		std::cout << std::endl << " press e to continue!" << std::endl;
-
-		input = Terminal::getInput();
-
-	}
 }
 
-void Interface::winSequence(Minefield& minefield, Player const& player) {
-	MatrixOperation::iterate(minefield.matrix.getSize(),[&](Position position) {
-		if(minefield.matrix.getElementAt(position).hasFlag() == false) {
-			minefield.matrix.accessElementAt(position).setUncovered(true);
-		}
-	});
-
-	int input = 0;
-	while(input != 'e') {
+void Interface::printWinSequence(Minefield& minefield, Player const& player) {
 		system("clear");
 		Interface::printInterface(player.position,minefield);
 		std::cout << "\033[32m" << "WIN" << "\033[0m" << std::endl;
 		std::cout << std::endl << " press e to continue!" << std::endl;
-
-		input = Terminal::getInput();
-
-	}
 }
 
-void Interface::invalidInput() {
-	int input = 0;
-	while(input != 'e') {
+void Interface::printInvalidInput() {
 		system("clear");
 		std::cout << "\033[31m" << "INVALID SIZE 0" << "\033[0m" << std::endl;
 		std::cout << std::endl << " press e to continue!" << std::endl;
-
-		input = Terminal::getInput();
-	}
 }

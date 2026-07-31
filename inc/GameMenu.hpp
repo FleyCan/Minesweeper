@@ -29,4 +29,5 @@ public:
 	bool saveMenu(std::vector<std::string> files, std::string& filename);
 
 	std::string chooseFile(Menu& fileList);
+
 };

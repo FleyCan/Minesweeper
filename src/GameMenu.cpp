@@ -170,6 +170,14 @@ bool GameMenu::saveMenu(std::vector<std::string> files,std::string& filename) {
 				if(menu.giveCurrentOptionIndex() == 1) { //SAVE
 					fileList.addOptions("_NEW_");
 					filename = chooseFile(fileList);
+					if(filename == "_NEW_") {
+						system("clear");
+
+						std::cout << "Choose a name for your save-file: " << std::endl;
+						std::cin >> filename;
+
+						files.push_back(filename);
+					}
 					return false;
 				}
 			break;
@@ -199,3 +207,4 @@ std::string GameMenu::chooseFile(Menu& fileList) {
 		}
 	}
 }
+

@@ -30,9 +30,9 @@ public:
 
 	static void printFileList(std::vector<std::string> files, int index);
 
-	static void deadSequence(Minefield const& minefield, Player const& player);
+	static void printDeadSequence(Minefield const& minefield, Player const& player);
 
-	static void winSequence(Minefield& minefield, Player const& player);
+	static void printWinSequence(Minefield& minefield, Player const& player);
 
-	static void invalidInput();
+	static void printInvalidInput();
 };

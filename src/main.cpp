@@ -42,17 +42,20 @@ int main() {
 		if(event == GameMenu::load) {
 			if(saveManager.files.empty()) goto start;
 			minefield = saveManager.readSave(filename,player.position);
-		} else {
+		}
 
+		if(event == GameMenu::start) {
 			if(x == 0 || y == 0) {
-				Interface::invalidInput();
+				Interface::printInvalidInput();
+				while(Terminal::waitForCharacter('e')) {
+					Interface::printInvalidInput();
+				}
 				goto start;
 			}
 
 			minefield = Minefield{Size{x,y},percentageOfMines};
 
 			player.position.setPosition(minefield.getRandomZeroPosition());
-
 		}
 
 		player.maxX = minefield.matrix.getSize().getX() - 1;
@@ -92,15 +95,28 @@ int main() {
 				break;
 			}
 
+			input = 0;
+
 			if(minefield.isDead()) {
-				Interface::deadSequence(minefield,player);
+				Interface::printDeadSequence(minefield,player);
+				while(Terminal::waitForCharacter('e')) {
+					Interface::printDeadSequence(minefield,player);
+				}
 				break;
 			}
 
 			minefield.checkWin();
 
 			if(minefield.hasWon()) {
-				Interface::winSequence(minefield,player);
+				MatrixOperation::iterate(minefield.matrix.getSize(),[&](Position position) {
+					if(minefield.matrix.getElementAt(position).hasFlag() == false) {
+						minefield.matrix.accessElementAt(position).setUncovered(true);
+					}
+				});
+				Interface::printWinSequence(minefield,player);
+				while(Terminal::waitForCharacter('e')) {
+					Interface::printWinSequence(minefield,player);
+				}
 				break;
 			}
 		}
