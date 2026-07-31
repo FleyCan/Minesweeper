@@ -116,13 +116,13 @@ void Minefield::uncoverElement(Position const& position, bool firstCall) {
 
 	if(matrix.getElementAt(position).hasFlag() == true) return;
 
-	matrix.accessElementAt(position).setUncovered(true);
-
-	if(matrix.getElementAt(position).getValue() == 0) {
+	if(matrix.getElementAt(position).isUncovered() && firstCall) {
 		uncoverNeighbours(position,getNeighbours(position));
 	}
 
-	if(matrix.getElementAt(position).isUncovered() && firstCall) {
+	matrix.accessElementAt(position).setUncovered(true);
+
+	if(matrix.getElementAt(position).getValue() == 0) {
 		uncoverNeighbours(position,getNeighbours(position));
 	}
 
